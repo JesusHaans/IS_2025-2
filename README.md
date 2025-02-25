@@ -331,3 +331,98 @@ Algunos ejemplos Basicos de codigo python en template:
 {% endblock %}
 ```
 
+# Clase 2 25-02-25
+
+## Profundicemos en los Templates.
+
+### ¿Qué es `{% ... %}` en Django?.
+En Django, las plantillas HTML pueden contener código dinámico usando el sistema de plantillas de Django (Django Template Language - DTL). Para esto, Django utiliza tres tipos de sintaxis especiales, y `{% ... %}` es una de ellas.
+
+### Tipos de sintaxis en Django Template.
+
+Django tiene tres formas principales de insertar contenido en un template:
+
+| Simbolo     |  Uso                     | Ejemplo                                |
+|-------------|--------------------------|----------------------------------------|
+| `{{ ... }}` | Mostrar variables        | `{{ user.username }}` -> "haans_lopez" |
+| `{% ... %}` | Etiquetas de control     | `{% for item in lista %}`              |
+| `{# ... #}` | Comentarios en templates | `{# Esto es un comentario #}`          |
+
+### `{% ... %}`: Etiquetas de control en Django
+
+Las etiquetas de control en Django permiten ejecutar lógica dentro del template. Se usan para:
+
+- Estructuras de control (`for`, `if`, `else`, `block`, etc.).
+- Extender plantillas (`extends`, `include`).
+- Cargar filtros o funcionalidades avanzadas (`load static`).
+
+#### Ejemplo básico:
+
+``` html
+{% if user.is_authenticated %}
+    <p>Bienvenido, {{ user.username }}.</p>
+{% else %}
+    <p>Por favor, inicia sesión.</p>
+{% endif %}
+```
+
+#### Ejemplo de `{% for %}`:
+
+Esta etiqueta nos ayuda a iterar cosas sobre una lista.
+
+``` html
+<ul>
+    {% for usuario in usuarios %}
+        <li>{{ usuario.username }}</li>
+    {% endfor %}
+</ul>
+```
+
+#### Ejemplo de `{% if %}`:
+
+Esta etiqueta nos ayuda a usar condicionales cosas sobre un template.
+
+``` html
+{% if user.is_superuser %}
+    <p>Bienvenido, Administrador</p>
+{% else %}
+    <p>Hola, Usuario</p>
+{% endif %}
+```
+
+#### Ejemplo de `{% block %}`:
+
+Esta etiqueta nos ayuda a definir areas editables sobre un template.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Mi Sitio{% endblock %}</title>
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
+```
+
+#### Ejemplo de `{% extends %}`:
+
+Esta etiqueta nos ayuda a heredar de una plantilla base.
+
+``` html
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Este es el contenido de esta página</h1>
+{% endblock %}
+```
+Esto extiende `base.html` y reemplaza el bloque `{% block content %}` con contenido personalizado.
+
+#### Ejemplo de `{% include %}`:
+
+Esta etiqueta nos ayuda a insertar otros templates.
+
+``` html
+{% include "usuarios/navbar.html" %}
+```
