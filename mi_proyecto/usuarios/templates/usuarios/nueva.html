@@ -1,0 +1,10 @@
+{% extends "usuarios/base.html" %}
+
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Frias Dominguez Oscar Fernando</h1>
+    <p>Hola, {{ user.username }}. Bienvenido a la nueva pantalla.</p>
+    <a href="{% url 'logout' %}">Cerrar sesión</a>
+{% endblock %}

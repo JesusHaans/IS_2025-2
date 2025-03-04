@@ -23,3 +23,6 @@ def logout_view(request):
 @login_required
 def dashboard(request):
     return render(request, 'usuarios/dashboard.html')
+
+def nueva(request):
+    return render(request, 'usuarios/nueva.html')
