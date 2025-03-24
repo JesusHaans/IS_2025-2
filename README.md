@@ -426,3 +426,229 @@ Esta etiqueta nos ayuda a insertar otros templates.
 ``` html
 {% include "usuarios/navbar.html" %}
 ```
+
+
+# Clase 3 04/03/2025
+
+## Profundicemos en los Template.
+
+### Como cargar informacion de los modelos en los templates.
+
+Para cargar información de los modelos en los templates, primero debemos pasar la información desde la vista al template.
+
+#### Pasar información desde la vista al template.
+
+Para pasar información desde la vista al template, debemos utilizar el diccionario `context` en la función `render`.
+
+``` python
+from django.shortcuts import render
+from .models import Entrada
+
+@login_required
+def dashboard(request):
+    
+    ## entradas_Hoy = [
+    ##    {'id': '12367', 'nombre': 'Estudiante 1', 'fecha': '2021-09-01'},
+    ##    {'id': '09865', 'nombre': 'Estudiante 2', 'fecha': '2021-09-02'},
+    ##    {'id': '29384', 'nombre': 'Estudiante 3', 'fecha': '2021-12-01'},
+    ##    {'id': '12367', 'nombre': 'haans', 'fecha': '2021-12-02'},
+    ##    {'id': '09865', 'nombre': 'link', 'fecha': '2021-12-03'},
+    ##]
+    entradas_Hoy = Entrada.objects.all()
+
+    contexto = {
+        'entradas_Hoy': entradas_Hoy
+    }
+    return render(request, 'usuarios/dashboard.html', contexto)
+```
+Con esto ya podemos acceder a la información de las entradas en el template `dashboard.html`. 
+
+#### Acceder a la información en el template.
+
+Para acceder a la información en el template, utilizamos la sintaxis de `{{ ... }}` y `{% ... %}`
+
+``` html
+<br>
+    {% for entrada in entradas_Hoy %}
+        <p> El dia {{ entrada.fecha }} El estudiante {{ entrada.nombre }} entro con id numero {{ entrada.aidi }}</p>
+    {% endfor %}
+    <br>
+```
+
+# Clase 4 11/03/2025
+
+## Uso de shell en Django para interactuar con la base de datos.
+
+### ¿Qué es el shell de Django?
+
+El shell de Django es una interfaz interactiva que nos permite interactuar con nuestra aplicación de Django y la base de datos. Podemos usar el shell para probar consultas, crear objetos, modificar datos, entre otras cosas.
+
+### ¿Cómo acceder al shell de Django?
+
+Para acceder al shell de Django, utilizamos el siguiente comando:
+
+```bash
+python manage.py shell
+```
+
+### Crear un objeto en la base de datos.
+
+Para crear un objeto en la base de datos, primero importamos el modelo y luego creamos el objeto.
+
+```python
+from usuarios.models import Entrada
+
+entrada = Entrada.objects.create(
+    nombre="Ejemplo de entrada",
+    fecha=date(2025, 3, 18),  # ejemplo de fecha
+    aidi="1234567890"
+)
+entrada.save()
+```
+
+### Consultar objetos en la base de datos.
+
+Para consultar objetos en la base de datos, utilizamos el método `all()`.
+
+```python
+entradas = Entrada.objects.all()
+```
+
+### Filtrar objetos en la base de datos.
+
+Para filtrar objetos en la base de datos, utilizamos el método `filter()`.
+
+```python
+entradas_hoy = Entrada.objects.filter(fecha=date.today())
+```
+
+Esto nos devolverá todas las entradas que tengan la fecha de hoy.
+
+#### Tipos de consultas en Django.
+
+Los diferentes tipos de consultas que podemos hacer en Django son:
+
+##### Consultas de igualdad.
+
+```python
+Entrada.objects.filter(nombre="valor de entrada")
+```
+
+##### Consultas de desigualdad.
+
+```python
+Entrada.objects.exclude(nombre="valor de entrada")
+```
+
+##### Consultas de texto.
+
+```python
+Entrada.objects.filter(nombre__contains="valor")
+Entrada.objects.filter(nombre__icontains="valor")
+Entrada.objects.filter(nombre__startswith="valor")
+Entrada.objects.filter(nombre__istartswith="valor")
+Entrada.objects.filter(nombre__endswith="valor")
+Entrada.objects.filter(nombre__iendswith="valor")
+```
+
+La i antes de la consulta indica que la consulta es insensible a mayúsculas y minúsculas.
+
+##### Consultas de valores nullos.
+
+```python
+Entrada.objects.filter(nombre__isnull=True)
+```
+
+##### Consultas con operadores de comparacion.
+
+```python
+Entrada.objects.filter(fecha__gt=date(2025, 3, 18))  # fecha mayor que
+Entrada.objects.filter(fecha__lt=date(2025, 3, 18))  # fecha menor que
+Entrada.objects.filter(fecha__gte=date(2025, 3, 18))  # fecha mayor o igual que
+Entrada.objects.filter(fecha__lte=date(2025, 3, 18))  # fecha menor o igual que
+```
+
+
+#### Ordenar consultas.
+
+Para ordenar consultas, utilizamos el método `order_by()`.
+
+```python
+Entrada.objects.order_by('nombre')  # ordenar por nombre
+Entrada.objects.order_by('-nombre')  # ordenar por nombre en orden descendente
+```
+
+Es importante notar las comillas simples en el nombre del campo.
+
+#### Limitar consultas.
+
+Para limitar consultas, utilizamos el método `[:n]`.
+
+```python
+Entrada.objects.all()[:5]  # limitar a 5 resultados
+```
+
+#### Contar las consultas.
+
+Para contar las consultas, utilizamos el método `count()`.
+
+```python
+Entrada.objects.count()  # contar todos los resultados
+```
+
+#### Eliminar objetos.
+
+Para eliminar objetos, utilizamos el método `delete()`.
+
+```python
+Entrada.objects.filter(nombre="valor de entrada").delete()
+```
+o podemos cargar primero a un objeto y despues usar el metodo delete.
+
+```python
+entrada = Entrada.objects.get(nombre="valor de entrada")
+entrada.delete()
+```
+
+## Uso de dbshell en Django para interactuar con la base de datos.
+
+### ¿Qué es el dbshell de Django?
+
+El dbshell de Django es una interfaz que nos permite interactuar con la base de datos directamente desde la terminal. Podemos usar el dbshell para ejecutar consultas SQL, ver tablas, modificar datos, entre otras cosas.
+
+### ¿Cómo acceder al dbshell de Django?
+
+Para acceder al dbshell de Django, utilizamos el siguiente comando:
+
+```bash
+python manage.py dbshell
+```
+
+### Ejecutar consultas SQL en el dbshell.
+
+Podemos ejecutar consultas SQL directamente en el dbshell. Por ejemplo, para ver todas las tablas en la base de datos, podemos ejecutar:
+
+```sql
+.tables
+```
+
+Para ver la estructura de una tabla, podemos ejecutar:
+
+```sql
+.schema nombre_de_la_tabla
+```
+
+Para ejecutar una consulta SQL, simplemente escribimos la consulta
+
+```sql
+SELECT * FROM nombre_de_la_tabla;
+```
+
+### Salir del dbshell.
+
+Para salir del dbshell, utilizamos el comando:
+
+```sql
+.quit
+```
+
