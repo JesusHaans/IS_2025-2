@@ -6,6 +6,19 @@
 {% block content %}
     <h1>Bienvenido al Dashboard</h1>
     <p>Hola, {{ user.username }}. Has iniciado sesión correctamente.</p>
+    <br>
+    {% for entrada in entradas_Hoy %}
+        <p> El dia {{ entrada.fecha }} El estudiante {{ entrada.nombre }} entro con id numero {{ entrada.aidi }}</p>
+    {% endfor %}
+    <br>
+
     <a href="{% url 'logout' %}">Cerrar sesión</a>
 {% endblock %}
 
+{% if messages %}
+  <script>
+    {% for message in messages %}
+      alert("{{ message|escapejs }}");
+    {% endfor %}
+  </script>
+{% endif %}

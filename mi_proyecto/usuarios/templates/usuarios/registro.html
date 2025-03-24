@@ -1,0 +1,41 @@
+{% extends "usuarios/base.html" %}
+
+{% block title %} Registro {% endblock title %}
+
+{% block content %}
+
+<h1>Registro</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ formulario.as_ul }}
+    <button type="submit">Registrarse</button>
+</form>
+
+<small id="nombreError" style="color:red; display:none;">* El Campo Usuario Es Obligatorio</small>
+<small id="passwordError" style="color:red; display:none;">* El Campo Password Es Obligatorio</small>
+
+<script>
+    const nombreInput = document.getElementById('id_username');
+    const nombreError = document.getElementById('nombreError');
+    const passwordInput = document.getElementById('id_password1');
+    const passwordError = document.getElementById('passwordError');
+  
+    nombreInput.addEventListener('blur', () => {
+      if (!nombreInput.value.trim()) {
+        nombreError.style.display = 'inline';
+      } else {
+        nombreError.style.display = 'none';
+      }
+    });
+
+    passwordInput.addEventListener('blur', () => {
+      if (!passwordInput.value.trim()) {
+        passwordError.style.display = 'inline';
+      } else {
+        passwordError.style.display = 'none';
+      }
+    });
+  </script>
+
+
+{% endblock content %}
