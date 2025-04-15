@@ -1,0 +1,19 @@
+<!-- books/templates/books/book_list.html -->
+{% extends "books/base.html" %}
+
+{% block title %}Lista de Libros{% endblock %}
+
+{% block content %}
+<h1>Lista de Libros</h1>
+<ul>
+    {% for book in books %}
+        <li>
+            <a href="{% url 'books:book_detail' book.pk %}">{{ book.title }}</a> - {{ book.author }}
+            (<a href="{% url 'books:book_update' book.pk %}">Editar</a> |
+             <a href="{% url 'books:book_delete' book.pk %}">Eliminar</a>)
+        </li>
+    {% empty %}
+        <li>No hay libros registrados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

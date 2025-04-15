@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'usuarios',  # Agregar aquí van las nuevas app's
+    'books',
 ]
 
 MIDDLEWARE = [
@@ -99,6 +100,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+#### aqui definiremos la URL donde estara la autenticacion de los usuarios
+LOGIN_URL = '/usuarios/login'
 
 
 # Internationalization

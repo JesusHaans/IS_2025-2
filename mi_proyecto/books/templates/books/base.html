@@ -1,0 +1,26 @@
+<!-- books/templates/books/base.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Librería{% endblock %}</title>
+    <!-- Aquí puedes incluir tus hojas de estilo o frameworks CSS -->
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'books:book_list' %}">Inicio</a></li>
+            <li><a href="{% url 'books:book_create' %}">Añadir Libro</a></li>
+            {% if user.is_authenticated %}
+                <li>Bienvenido, {{ user.username }} (<a href="{% url 'logout' %}">Cerrar sesión</a>)</li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <hr>
+    {% block content %}
+    <!-- Aquí se inyectará el contenido específico de cada vista -->
+    {% endblock %}
+</body>
+</html>

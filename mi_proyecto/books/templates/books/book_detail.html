@@ -1,0 +1,22 @@
+<!-- books/templates/books/book_detail.html -->
+{% extends "books/base.html" %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ book.title }}</h1>
+<p><strong>Autor:</strong> {{ book.author }}</p>
+<p><strong>Fecha de Publicación:</strong> {{ book.publication_date }}</p>
+<p><strong>ISBN:</strong> {{ book.isbn }}</p>
+<p><strong>Resumen:</strong> {{ book.summary }}</p>
+<p><strong>Editorial:</strong> {{ book.publisher }}</p>
+<p>
+    <strong>Categorías:</strong>
+    {% for category in book.categories.all %}
+        {{ category.name }}{% if not forloop.last %}, {% endif %}
+    {% empty %}
+        Sin categorías asignadas.
+    {% endfor %}
+</p>
+<a href="{% url 'books:book_list' %}">Volver a la lista</a>
+{% endblock %}

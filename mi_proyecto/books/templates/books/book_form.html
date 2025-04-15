@@ -1,0 +1,16 @@
+<!-- books/templates/books/book_form.html -->
+{% extends "books/base.html" %}
+
+{% block title %}
+    {% if form.instance.pk %}Editar Libro{% else %}Nuevo Libro{% endif %}
+{% endblock %}
+
+{% block content %}
+<h1>{% if form.instance.pk %}Editar Libro{% else %}Nuevo Libro{% endif %}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+</form>
+<a href="{% url 'books:book_list' %}">Cancelar</a>
+{% endblock %}
